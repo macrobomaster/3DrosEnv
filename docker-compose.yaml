@@ -1,27 +1,5 @@
 version: '3'
 services:
-  # publisher:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   command: >
-  #     bash -c "while true; do
-  #     ros2 topic pub /red_standard_robot1/cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.3, y: 0, z: 0}, angular: {x: 0, y: 0, z: 0}}';
-  #     sleep 1; done"
-  #   environment:
-  #     - ROS_DOMAIN_ID=8
-  #     - ROS_MASTER_URI=http://ros1-core:11311
-
-  # subscriber:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   command: > 
-  #     bash -c "sleep 1;
-  #     ros2 topic echo /red_standard_robot1/cmd_vel;"
-  #   environment:
-  #     - ROS_DOMAIN_ID=8
-  #     - ROS_MASTER_URI=http://ros1-core:11311
 
   general:
     build:
@@ -36,12 +14,13 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - $HOME/.Xauthority:/root/.Xauthority:rw
+      - /home/frankvp11/Documents/Simulation:/home
     stdin_open: true
     tty: true
     privileged: true
-    command: /./entrypoint.sh
+    command: /./simulation_entrypoint.sh
 
-  interaction:
+  health_display3:
     build:
       context: .
       dockerfile: Dockerfile
@@ -57,9 +36,9 @@ services:
     stdin_open: true
     tty: true
     privileged: true
-    command: /./entrypoint2.sh
-
-  rviz_setup:
+    command: /./rviz2_entrypoint.sh
+    
+  state_publisher:
     build:
       context: .
       dockerfile: Dockerfile
@@ -75,50 +54,12 @@ services:
     stdin_open: true
     tty: true
     privileged: true
-    command: /./entrypoint3.sh
-
-
-  interaction2:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      - ROS_DOMAIN_ID=8
-      - ROS_MASTER_URI=http://ros1-core:11311
-      - DISPLAY=:0
-      - QT_X11_NO_MITSHM=1
-      - QT_QPA_PLATFORM=xcb
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - $HOME/.Xauthority:/root/.Xauthority:rw
-    stdin_open: true
-    tty: true
-    privileged: true
-    command: /./entrypoint4.sh
-
-  rviz_setup2:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      - ROS_DOMAIN_ID=8
-      - ROS_MASTER_URI=http://ros1-core:11311
-      - DISPLAY=:0
-      - QT_X11_NO_MITSHM=1
-      - QT_QPA_PLATFORM=xcb
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - $HOME/.Xauthority:/root/.Xauthority:rw
-    stdin_open: true
-    tty: true
-    privileged: true
-    command: /./entrypoint5.sh
+    command: /./health_pub_entrypoint.sh
   
-
-  health_display:
+  rl_stuff:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: torchDockerfile
     environment:
       - ROS_DOMAIN_ID=8
       - ROS_MASTER_URI=http://ros1-core:11311
@@ -131,21 +72,4 @@ services:
     stdin_open: true
     tty: true
     privileged: true
-    command: /./entrypoint6.sh
-  health_display2:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      - ROS_DOMAIN_ID=8
-      - ROS_MASTER_URI=http://ros1-core:11311
-      - DISPLAY=:0
-      - QT_X11_NO_MITSHM=1
-      - QT_QPA_PLATFORM=xcb
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - $HOME/.Xauthority:/root/.Xauthority:rw
-    stdin_open: true
-    tty: true
-    privileged: true
-    command: /./entrypoint7.sh
+    command: /./rl_entrypoint.sh

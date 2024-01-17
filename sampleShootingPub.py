@@ -20,15 +20,6 @@ class DummyPublisherNode(Node):
 
         self.timer = self.create_timer(0.5, self.getShootCmdMsg)
 
-    # def publish_random_values(self):
-    #     twist_msg = Twist()
-    #     twist_msg.linear.x = random.uniform(0, 1)
-    #     twist_msg.linear.y = random.uniform(0, 1)
-    #     twist_msg.linear.z = random.uniform(0, 1)
-    #     twist_msg.angular.x = random.uniform(0, 1)
-    #     twist_msg.angular.y = random.uniform(0, 1)
-    #     twist_msg.angular.z = random.uniform(0, 1)        
-    #     self.qii_diagnostics_publisher.publish(twist_msg)
     def getShootCmdMsg(self, ):
         msg = ShootCmd()
         msg.projectile_num=random.randint(0, 100)
